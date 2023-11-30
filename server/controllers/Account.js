@@ -58,6 +58,7 @@ const signup = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
+  const { username } = req.session.account;
   const newPass = `${req.body.newPass}`;
   const newPass2 = `${req.body.newPass2}`;
 
@@ -70,13 +71,14 @@ const changePassword = async (req, res) => {
   }
 
   try {
-    // const hash = await Account.generateHash(newPass);
-    // const query = req.session.account.username;
-    // console.log(query)
-    // query.password = hash;
-    // console.log(query.password);
-    // console.log(req.session.account.hash)
-    // await query.save();
+    const hash = await Account.generateHash(newPass);
+    const existingAccount = await Account.findOne({ username });
+    if (!existingAccount) {
+      return res.status(404).json({ error: 'Account not found!' });
+    }
+    existingAccount.password = hash;
+    await existingAccount.save();
+
     return res.json({ redirect: '/maker' });
   } catch (err) {
     console.log(err);

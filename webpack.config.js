@@ -4,7 +4,8 @@ module.exports = {
     entry: {
         app: './client/maker.jsx',
         login: './client/login.jsx',
-        pass: './client/changePass.jsx'
+        pass: './client/changePass.jsx',
+        scribble: './client/scribble.jsx'
     },
     module: {
         rules: [

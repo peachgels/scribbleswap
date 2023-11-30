@@ -3,6 +3,7 @@ const models = require('../models');
 const { Domo } = models;
 
 const makerPage = async (req, res) => res.render('app');
+const scribblePage = (req, res) => res.render('scribble');
 
 const makeDomo = async (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.level) {
@@ -45,4 +46,5 @@ module.exports = {
   makerPage,
   makeDomo,
   getDomos,
+  scribblePage,
 };
