@@ -7,8 +7,7 @@ let ScribbleModel = {};
 
 const ScribbleSchema = new mongoose.Schema({
   img: {
-    data: Buffer,
-    contentType: String,
+    type: String,
   },
   owner: {
     type: mongoose.Schema.ObjectId,

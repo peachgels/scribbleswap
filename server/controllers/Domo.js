@@ -32,11 +32,12 @@ const makeDomo = async (req, res) => {
 
 const sendScribbles = async (req, res) => {
   const scribData = {
-    img: req.img,
+    img: req.body.img,
     owner: req.session.account._id,
   };
   try {
     const newScrib = new Scribble(scribData);
+    await newScrib.save();
     for (const friend of req.body.sendToList) {
       const sentTo = await Account.findOne({ username: friend }).exec();
       if (!sentTo) {
@@ -53,22 +54,20 @@ const sendScribbles = async (req, res) => {
   }
 };
 
-const getDomos = async (req, res) => {
+const getInbox = async (req, res) => {
   try {
-    const query = { owner: req.session.account._id };
-    const docs = await Domo.find(query).select('name age level').lean().exec();
-
-    return res.json({ domos: docs });
+    const docs = await Scribble.find({ '_id': { $in: req.session.account.inbox } });
+    return res.json({ inbox: docs });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: 'Error retrieving domos!' });
+    return res.status(500).json({ error: 'Error retrieving inbox!' });
   }
 };
 
 module.exports = {
   makerPage,
   makeDomo,
-  getDomos,
+  getInbox,
   scribblePage,
   sendScribbles,
 };

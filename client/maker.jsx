@@ -43,10 +43,10 @@ const ReactDOM = require('react-dom');
 //     );
 // };
 
-// const DomoList = (props) => {
+// const  = (props) => {
 //     if(props.domos.length === 0){
 //         return (
-//             <div className="domoList">
+//             <div className="">
 //                 <h3 className="emptyDomo">No Domos Yet!</h3>
 //             </div>
 //         );
@@ -70,27 +70,54 @@ const ReactDOM = require('react-dom');
 //     );
 // }
 
-// const loadDomosFromServer = async () => {
-//     const response = await fetch('/getDomos');
-//     const data = await response.json();
-//     ReactDOM.render(
-//         <DomoList domos={data.domos} />,
-//         document.getElementById('domos')
-//     );
-// }
+const loadInboxFromServer = async () => {
+    const response = await fetch('/getInbox');
+    const data = await response.json();
+    console.log(data);
+    ReactDOM.render(
+        <InboxList inbox={data.inbox} />,
+        document.getElementById('domos')
+    );
+}
+
+const InboxList = (props) => {
+    if(props.inbox.length === 0){
+        return (
+            <div className="inboxList">
+                <h3 className="emptyDomo">No Scribbles Yet!</h3>
+            </div>
+        );
+    }
+
+    const inboxNodes = props.inbox.map(item => {
+        return (
+            <div key={item._id} className="sribble">
+                <img src={item.img} alt ="domo face" className="domoFace" />
+                <h3 className="domoName">From: {item.owner} </h3>
+                <h3 className="domoLevel">Date: {item.createdDate} </h3>
+            </div>
+        );
+    });
+
+    return (
+        <div className="domoList">
+            {inboxNodes}
+        </div>
+    );
+}
 
 const init = () => {
-    ReactDOM.render(
-        <DomoForm />,
-        document.getElementById('makeDomo')
-    );
+    // ReactDOM.render(
+    //     <DomoForm />,
+    //     document.getElementById('makeDomo')
+    // );
 
     ReactDOM.render(
-        <DomoList domos={[]} />,
+        <InboxList inbox={[]} />,
         document.getElementById('domos')
     );
 
-    //loadDomosFromServer();
+    loadInboxFromServer();
 }
 
 window.onload = init;
