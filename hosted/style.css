@@ -274,15 +274,6 @@ body {
     color: white;
 }
 
-h1 {
-    background: #7F7FD5;
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 .container {
     height: 100%;
     display: flex;
@@ -295,7 +286,7 @@ h1 {
     display: flex;
     flex-direction: column;
     padding: 5px;
-    width: 70px;
+    width: 300px;
     background-color: #202020;
 }
 
@@ -324,5 +315,6 @@ h1 {
     width: 500px;
     overflow: hidden;
     box-shadow: 3px 3px 5px rgba(128, 128, 128, 0.405);
+    border-radius: 2px;
     
 }

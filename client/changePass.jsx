@@ -8,8 +8,6 @@ const handlePass = (e) => {
 
     const newPass = e.target.querySelector('#newPass').value;
     const newPass2 = e.target.querySelector('#newPass2').value;
-    console.log(newPass);
-    console.log(newPass2);
 
     if(!newPass || !newPass2){
         helper.handleError('All fields are required!')

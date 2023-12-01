@@ -1,24 +1,32 @@
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <title>ScribbleSwap</title>
-  <link rel="shortcut icon" href="/assets/img/favicon.png"/>
-  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+    <meta charset="utf-8" />
+    <title>ScribbleSwap</title>
+    <link rel="shortcut icon" href="/assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="/assets/style.css" />
 </head>
+
 <body>
     <section class="container">
         <div id="toolbar">
-            <h1>Draw</h1>
             <label for="stroke">Pen Color</label>
             <input id="stroke" name='stroke' type="color">
             <label for="lineWidth">Line Width</label>
             <input id="lineWidth" name='lineWidth' type="number" value="5">
             <button id="clear">Clear</button>
+            <button id="finished">Finish</button>
         </div>
         <div class="drawing-board">
             <canvas id="drawing-board"></canvas>
         </div>
     </section>
+    <div id="domoMessage" class='hidden'>
+        <img id="speech" src="/assets/img/speech.png" alt="speech box" />
+        <h3><span id="errorMessage"></span></h3>
+        <img id="domo" src="assets/img/domo.png" alt="domo" />
+    </div>
     <script src="/assets/scribbleBundle.js"></script>
 </body>
+
 </html>

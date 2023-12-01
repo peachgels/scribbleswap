@@ -1,6 +1,6 @@
 const models = require('../models');
 
-const { Domo } = models;
+const { Scribble, Account } = models;
 
 const makerPage = async (req, res) => res.render('app');
 const scribblePage = (req, res) => res.render('scribble');
@@ -30,6 +30,29 @@ const makeDomo = async (req, res) => {
   }
 };
 
+const sendScribbles = async (req, res) => {
+  const scribData = {
+    img: req.img,
+    owner: req.session.account._id,
+  };
+  try {
+    const newScrib = new Scribble(scribData);
+    for (const friend of req.body.sendToList) {
+      const sentTo = await Account.findOne({ username: friend }).exec();
+      if (!sentTo) {
+        console.log('not found');
+        return;
+      }
+      sentTo.inbox.push(newScrib);
+      await sentTo.save();
+    }
+    return res.json({ redirect: '/maker' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'An error occured!' });
+  }
+};
+
 const getDomos = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
@@ -47,4 +70,5 @@ module.exports = {
   makeDomo,
   getDomos,
   scribblePage,
+  sendScribbles,
 };
