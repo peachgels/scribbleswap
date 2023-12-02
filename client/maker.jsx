@@ -90,11 +90,13 @@ const InboxList = (props) => {
     }
 
     const inboxNodes = props.inbox.map(item => {
+        date =  new Date(item.createdDate)
+        date = date.toDateString();
         return (
             <div key={item._id} className="sribble">
                 <img src={item.img} alt ="domo face" className="domoFace" />
                 <h3 className="domoName">From: {item.owner} </h3>
-                <h3 className="domoLevel">Date: {item.createdDate} </h3>
+                <h3 className="domoLevel">Date: {date}</h3>
             </div>
         );
     });

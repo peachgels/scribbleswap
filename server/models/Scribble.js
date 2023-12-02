@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const _ = require('underscore');
 
-// const setName = (name) => _.escape(name).trim();
-
 let ScribbleModel = {};
 
 const ScribbleSchema = new mongoose.Schema({
