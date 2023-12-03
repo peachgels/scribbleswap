@@ -76,12 +76,12 @@ const loadInboxFromServer = async () => {
     console.log(data);
     ReactDOM.render(
         <InboxList inbox={data.inbox} />,
-        document.getElementById('domos')
+        document.getElementById('scribContainer')
     );
 }
 
 const InboxList = (props) => {
-    if(props.inbox.length === 0){
+    if (props.inbox.length === 0) {
         return (
             <div className="inboxList">
                 <h3 className="emptyDomo">No Scribbles Yet!</h3>
@@ -90,20 +90,24 @@ const InboxList = (props) => {
     }
 
     const inboxNodes = props.inbox.map(item => {
-        date =  new Date(item.createdDate)
+        date = new Date(item.createdDate)
         date = date.toDateString();
         return (
-            <div key={item._id} className="sribble">
-                <img src={item.img} alt ="domo face" className="domoFace" />
-                <h3 className="domoName">From: {item.owner} </h3>
-                <h3 className="domoLevel">Date: {date}</h3>
+            <div key={item._id} className="scribble">
+                <img src={item.img} />
+                <div class="scribInfo">
+                    <h3>From: {item.owner} </h3>
+                    <h3>Date: {date}</h3>
+                </div>
             </div>
         );
     });
 
     return (
-        <div className="domoList">
+        <div className="scribCenter">
+        <div className="scribbleGrid">
             {inboxNodes}
+        </div>
         </div>
     );
 }
@@ -116,7 +120,7 @@ const init = () => {
 
     ReactDOM.render(
         <InboxList inbox={[]} />,
-        document.getElementById('domos')
+        document.getElementById('scribContainer')
     );
 
     loadInboxFromServer();

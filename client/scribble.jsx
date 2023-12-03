@@ -35,6 +35,8 @@ const DrawingTools = (props) => {
     );
 };
 
+
+//https://react.dev/learn/updating-arrays-in-state
 const RecipientsMenu = (props) => {
     const [list, setList] = useState([]);
 
