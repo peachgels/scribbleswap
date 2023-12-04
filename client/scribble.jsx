@@ -11,7 +11,7 @@ const handleScribble = (e) => {
     const img = canvas.toDataURL();
 
     let sendToList = Array.from(document.querySelectorAll('#recipient'));
-    for (let i = 0; i < sendToList.length; i++){
+    for (let i = 0; i < sendToList.length; i++) {
         sendToList[i] = (sendToList[i].textContent.trim() || sendToList[i].innerText.trim())
     }
 
@@ -24,10 +24,45 @@ const DrawingTools = (props) => {
 
     return (
         <div>
+            <input id="drawButton" type="radio" name="drawing" checked="true" value="draw" onClick={setToDraw}></input>
+            <label for="drawButton">Draw</label>
+            <input id="eraseButton" type="radio" name="drawing" value="erase" onClick={setToErase}></input>
+            <label for="eraseButton">Erase</label>
+            <hr></hr>
             <label for="stroke">Pen Color</label>
             <input id="stroke" name='stroke' type="color"></input>
             <label for="lineWidth">Line Width</label>
             <input id="lineWidth" type="range" min="1" max="50" defaultValue="5"></input>
+            <hr></hr>
+            <div class="row colors">
+                <label class="title">Colors</label>
+                <ul class="options">
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option" onClick={colorButtonClicked}></li>
+                    <li class="option selected" onClick={colorButtonClicked}></li>
+                </ul>
+            </div>
             <button id="clear">Clear</button><br></br>
             <hr></hr>
             <button id="finished">Finish</button>
@@ -100,6 +135,13 @@ let allowPainting = true;
 let lineWidth = 5;
 let sendToList = [];
 
+const colorButtonClicked = (e) => {
+    document.querySelector(".options .selected").classList.remove("selected");
+    e.target.classList.add("selected");
+    // passing selected btn background color as selectedColor value
+    ctx.strokeStyle = window.getComputedStyle(e.target).getPropertyValue("background-color");
+}
+
 toolbar.addEventListener('click', e => {
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -142,6 +184,13 @@ canvas.addEventListener('mouseup', e => {
         ctx.beginPath();
     }
 });
+const setToDraw = () => {
+    ctx.globalCompositeOperation = 'source-over';
+};
+
+const setToErase = () => {
+    ctx.globalCompositeOperation = 'destination-out';
+};
 
 canvas.addEventListener('mousemove', draw);
 
@@ -149,8 +198,7 @@ const init = () => {
     ReactDOM.render(<DrawingTools />,
         document.getElementById('toolbar'));
     // setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
-    let saveImg = document.querySelector("#finished")
-    saveImg.addEventListener("click", () => {
+    document.querySelector("#finished").addEventListener("click", () => {
         allowPainting = false;
         const link = document.createElement("a"); // creating <a> element
         link.download = `${Date.now()}.jpg`; // passing current date as link download value
