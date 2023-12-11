@@ -16,6 +16,7 @@ const sendScribbles = async (req, res) => {
     newScrib.save();
     const updatePromises = [];
     const currentAct = req.session.account.username;
+    console.log(req.body.savedAsPFP);
     if (req.body.savedAsPFP) {
       updatePromises.push(
         Account.findOne({ username: currentAct }).exec().then((thisGuy) => {
@@ -46,42 +47,29 @@ const sendScribbles = async (req, res) => {
   }
 };
 
-// const updateScrapbook = async (req, res) => {
-//   try {
-//     const newScrap = await Scribble.findOne({ _id: req.body.scribID }).exec();
-//     console.log(newScrap._id);
-//     const query = req.session.account.username;
-//     const thisGuy = await Account.findOne({ username: query });
-//     if (!thisGuy) {
-//       console.log('No account found!');
-//       return;
-//     }
-//     thisGuy.scrapbook.push(newScrap);
-//     await thisGuy.save();
-//     return res.status(201);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(500).json({ error: 'Error!' });
-//   }
-// };
-
 const getInbox = async (req, res) => {
   let docs;
   try {
     if (req.session.account.premium){
-      console.log('yes premium');
       docs = await Scribble.find({ _id: { $in: req.session.account.inbox } })
       .sort({_id:-1}).limit(100);
     }
     else{
-      console.log('no premium');
       docs = await Scribble.find({ _id: { $in: req.session.account.inbox } })
-      .sort({_id:-1}).limit(2);
+      .sort({_id:-1}).limit(50);
     }
+    console.log(req.session.account._id)
+    const account = await Account.findById(req.session.account._id).exec();
+
+    if (!account) {
+      return res.status(401).json({ error: 'User not found.' });
+    }
+
+    req.session.account = Account.toAPI(account);
     return res.json({ inbox: docs });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: 'Error retrieving inbox!' });
+    return res.status(500).json({ error: 'Error retrieving inbox here!' });
   }
 };
 
@@ -120,7 +108,6 @@ module.exports = {
   getPFP,
   getUserData,
   getInbox,
-  // updateScrapbook,
   getScrapbook,
   scribblePage,
   sendScribbles,

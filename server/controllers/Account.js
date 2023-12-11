@@ -90,9 +90,9 @@ const premiumToggle = async (req, res) => {
   try {
     const account = await Account.findOne({ username: req.session.account.username});
     account.premium = !account.premium;
-    console.log(account.premium);
     await account.save();
-    return res.json({ redirect: '/maker' });
+    req.session.account.premium = !account.premium;
+    return res.redirect('/maker');
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'An error occured!' });

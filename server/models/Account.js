@@ -76,5 +76,18 @@ AccountSchema.statics.authenticate = async (username, password, callback) => {
   }
 };
 
+AccountSchema.statics.update = async (userId, callback) => {
+  try {
+    const doc = await AccountModel.findById({ userId }).exec();
+    if (!doc) {
+      return callback();
+    }
+
+    return callback();
+  } catch (err) {
+    return callback(err);
+  }
+};
+
 AccountModel = mongoose.model('Account', AccountSchema);
 module.exports = AccountModel;

@@ -114,4 +114,4 @@ const init = () => {
     loadPFP();
 }
 
-window.onload = init;
+window.addEventListener('load', init);

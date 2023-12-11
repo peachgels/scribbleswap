@@ -10,7 +10,7 @@ const handleScribble = (e) => {
 
     const img = canvas.toDataURL();
 
-    let savedAsPFP = document.querySelector("#saveAsPFP").value;
+    let savedAsPFP = document.querySelector("#saveAsPFP").checked;
 
     let sendToList = Array.from(document.querySelectorAll('#recipient'));
     for (let i = 0; i < sendToList.length; i++) {
