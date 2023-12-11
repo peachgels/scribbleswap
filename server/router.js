@@ -3,6 +3,8 @@ const mid = require('./middleware');
 
 const router = (app) => {
   app.get('/getInbox', mid.requiresLogin, controllers.Domo.getInbox);
+  app.get('/getScrapbook', mid.requiresLogin, controllers.Domo.getScrapbook);
+  app.get('/getPFP', mid.requiresLogin, controllers.Domo.getPFP);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
@@ -12,7 +14,7 @@ const router = (app) => {
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
   app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
-  // app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
+  app.post('/maker', mid.requiresLogin, controllers.Domo.updateScrapbook);
 
   app.get('/scribble', mid.requiresLogin, controllers.Domo.scribblePage);
   app.post('/scribble', mid.requiresLogin, controllers.Domo.sendScribbles);

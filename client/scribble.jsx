@@ -10,12 +10,14 @@ const handleScribble = (e) => {
 
     const img = canvas.toDataURL();
 
+    let savedAsPFP = document.querySelector("#saveAsPFP").value;
+
     let sendToList = Array.from(document.querySelectorAll('#recipient'));
     for (let i = 0; i < sendToList.length; i++) {
         sendToList[i] = (sendToList[i].textContent.trim() || sendToList[i].innerText.trim())
     }
 
-    helper.sendPost(e.target.action, { img, sendToList });
+    helper.sendPost(e.target.action, { img, sendToList, savedAsPFP });
 
     return false;
 }
@@ -29,8 +31,8 @@ const DrawingTools = (props) => {
             <input id="eraseButton" type="radio" name="drawing" value="erase" onClick={setToErase}></input>
             <label for="eraseButton">Erase</label>
             <hr></hr>
-            <label for="stroke">Pen Color</label>
-            <input id="stroke" name='stroke' type="color"></input>
+            {/* <label for="stroke">Pen Color</label>
+            <input id="stroke" name='stroke' type="color"></input> */}
             <label for="lineWidth">Line Width</label>
             <input id="lineWidth" type="range" min="1" max="50" defaultValue="5"></input>
             <hr></hr>
@@ -63,7 +65,7 @@ const DrawingTools = (props) => {
                     <li class="option selected" onClick={colorButtonClicked}></li>
                 </ul>
             </div>
-            <button id="clear">Clear</button><br></br>
+            <button id="clear">Clear</button>
             <hr></hr>
             <button id="finished">Finish</button>
         </div>
@@ -77,7 +79,9 @@ const RecipientsMenu = (props) => {
 
     const [value, setValue] = useState("");
 
-    const addToList = () => {
+    const addToList = (e) => {
+
+        e.preventDefault();
 
         let tempArr = list;
 
@@ -99,13 +103,20 @@ const RecipientsMenu = (props) => {
 
     return (
         <div>
-            <label htmlFor="friend">Friend: </label>
-            <input id="friendInput" type="text" name="friend" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Type a friend's username..." />
-            <button type='button' id="addFriend" onClick={addToList}>Add Friend</button>
-            <ul id="recipients">
-                {list.length > 0 &&
-                    list.map((item, i) => <li id="recipient" onClick={() => deleteItem(i)}>{item} </li>)}
-            </ul>
+            <label htmlFor="saveAs">Save as profile picture?</label>
+            <br></br>
+            <input id="saveAsPFP" type="checkbox" name="saveAs"></input>
+            <form id="addFriendForm"
+                onSubmit={addToList}
+            >
+                <label htmlFor="friend"></label>
+                <input id="friendInput" type="text" name="friend" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Type a friend's username..." />
+                <button type='button' id="addRecipient" onClick={addToList}>Add Recipient</button>
+                <ul id="recipients">
+                    {list.length > 0 &&
+                        list.map((item, i) => <li id="recipient" onClick={() => deleteItem(i)}>{item} </li>)}
+                </ul>
+            </form>
             <form id="scribbleSendForm"
                 name="scribbleSendForm"
                 onSubmit={handleScribble}

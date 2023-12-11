@@ -27,6 +27,7 @@ const AccountSchema = new mongoose.Schema({
   },
   profilePic: {
     type: mongoose.Schema.ObjectId,
+    ref: 'Scribble',
   },
   inbox:
     [{ type: mongoose.Schema.Types.ObjectId }],
@@ -38,6 +39,7 @@ const AccountSchema = new mongoose.Schema({
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,
   _id: doc._id,
+  profilePic: doc.profilePic,
   inbox: doc.inbox,
   scrapbook: doc.scrapbook,
 });

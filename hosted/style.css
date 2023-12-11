@@ -1,11 +1,23 @@
+@font-face {
+    font-family: 'Gochi';
+    src: url('fonts/GochiHand-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Gochi';
+}
+
 html,
 body {
+    font-family: 'Gochi';
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background-color: rgb(191, 240, 187);
+    background-color: rgb(248, 226, 197);
 }
 
 #logo {
@@ -19,17 +31,24 @@ body {
 nav {
     width: 15%;
     height: 100%;
-    background-color: rgba(121, 210, 113);
+    background-color: rgb(255, 192, 235);
     position: absolute;
     top: 0px;
     left: 0px;
+    transition: 0.5s ease;
+    z-index: 100;
+}
+
+nav:hover{
+    box-shadow: 4px 0px 7px #7904046f;
+    transition: 0.3s ease;
 }
 
 .navlink {
     padding: 5px;
     padding-top: 12px;
     padding-left: 20px;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.3em;
     float: left;
 }
@@ -39,27 +58,28 @@ nav {
 .navlink a:visited,
 .navlink a:hover,
 .navlink a:active {
-    color: white;
+    color: rgb(0, 0, 0);
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: rgba(255, 255, 255, 0.796);
     transition: background-color 0.4s ease;
 }
 
 .navlink a:hover {
     transition: background-color 0.8s ease;
-    background-color: #66bdff;
+    background-color: #ffffff;
 }
 
 .scribble {
     display: flex;
+    position: relative;
     width: 300px;
     flex-flow: column nowrap;
     align-content: space-around;
-    background-color: rgba(121, 210, 113);
+    background-color: rgb(127, 225, 250);
     border-radius: 0 0 20px 20px;
-    box-shadow: 0px 5px 0px rgb(2, 116, 108)
+    box-shadow: 0px 5px 0px rgb(255, 209, 148);
 }
 
 .scribble img {
@@ -337,7 +357,7 @@ body {
     padding: 5px;
     width: 300px;
     background-color: #202020;
-    color: rgb(255, 255, 255);
+    color: rgb(197, 197, 197);
 }
 
 #toolbar * {
@@ -345,14 +365,14 @@ body {
 }
 
 #toolbar label {
-    font-size: 12px;
+    font-size: 20px;
 }
 
 #toolbar input {
     width: 100%;
 }
 
-#toolbar input[type="radio"] {
+#toolbar input[type="radio"], #toolbar input[type="checkbox"] {
     width: auto;
 }
 
@@ -362,10 +382,10 @@ body {
     border-radius: 4px;
     color: white;
     padding: 2px;
+    font-size: 18px;
 }
 
 #drawing-board {
-    border: 2px solid rgb(27, 26, 26);
     height: 500px;
     width: 500px;
     overflow: hidden;
@@ -407,44 +427,43 @@ body {
 }
 
 .colors .option:nth-child(5) {
-    background-color: #FFFF38;
-}
-
-.colors .option:nth-child(6) {
     background-color: #F2C649;
 }
-.colors .option:nth-child(7) {
+.colors .option:nth-child(6) {
     background-color: #FFEB00;
 }
-.colors .option:nth-child(8) {
+.colors .option:nth-child(7) {
     background-color: #AFE313;
 }
-.colors .option:nth-child(9) {
+.colors .option:nth-child(8) {
     background-color: #3AA655;
 }
-.colors .option:nth-child(10) {
+.colors .option:nth-child(9) {
     background-color: #00CC99;
 }
-.colors .option:nth-child(11) {
+.colors .option:nth-child(10) {
     background-color: #95E0E8;
 }
-.colors .option:nth-child(12) {
+.colors .option:nth-child(11) {
     background-color: #4997D0;
 }
-.colors .option:nth-child(13) {
+.colors .option:nth-child(12) {
     background-color: #00468C;
 }
-.colors .option:nth-child(14) {
+.colors .option:nth-child(13) {
     background-color: #6456B7;
 }
-.colors .option:nth-child(15) {
+.colors .option:nth-child(14) {
     background-color: #6B3FA0;
 }
-.colors .option:nth-child(16) {
+.colors .option:nth-child(15) {
     background-color: #733380;
 }
+.colors .option:nth-child(16) {
+    background-color: rgb(255, 216, 252);
+}
 .colors .option:nth-child(17) {
-    background-color: #FC74FD;
+    background-color: rgb(253, 116, 219);
 }
 .colors .option:nth-child(18) {
     background-color: #832A0D;
@@ -462,7 +481,7 @@ body {
     background-color: #8B8680;
 }
 .colors .option:nth-child(23) {
-    background-color: #FFF;
+    background-color: #f7f7f7;
 }
 .colors .option:nth-child(24) {
     background-color: #000;
@@ -514,4 +533,28 @@ ul {
     margin-block-start: 0;
     margin-block-end: 0;
     padding: 0;
+    list-style: none;
+}
+#pfpSpot img{
+    background-color: white;
+    max-width: 90%;
+    display: block;
+    margin: 0 auto;
+}
+.scribble .pin{
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+}
+
+button:disabled{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #ff0000;
+}
+form {
+    margin-block-end: 0px;
 }
