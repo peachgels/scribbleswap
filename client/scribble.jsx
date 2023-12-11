@@ -65,9 +65,9 @@ const DrawingTools = (props) => {
                     <li class="option selected" onClick={colorButtonClicked}></li>
                 </ul>
             </div>
-            <button id="clear">Clear</button>
+            <button id="clear">Clear Canvas</button>
             <hr></hr>
-            <button id="finished">Finish</button>
+            <button id="finished">Finished!</button>
         </div>
     );
 };
@@ -104,7 +104,6 @@ const RecipientsMenu = (props) => {
     return (
         <div>
             <label htmlFor="saveAs">Save as profile picture?</label>
-            <br></br>
             <input id="saveAsPFP" type="checkbox" name="saveAs"></input>
             <form id="addFriendForm"
                 onSubmit={addToList}
@@ -112,11 +111,13 @@ const RecipientsMenu = (props) => {
                 <label htmlFor="friend"></label>
                 <input id="friendInput" type="text" name="friend" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Type a friend's username..." />
                 <button type='button' id="addRecipient" onClick={addToList}>Add Recipient</button>
+                <h4>Sending To...</h4>
                 <ul id="recipients">
                     {list.length > 0 &&
                         list.map((item, i) => <li id="recipient" onClick={() => deleteItem(i)}>{item} </li>)}
                 </ul>
             </form>
+            <hr></hr>
             <form id="scribbleSendForm"
                 name="scribbleSendForm"
                 onSubmit={handleScribble}
@@ -124,7 +125,7 @@ const RecipientsMenu = (props) => {
                 method="POST"
                 className="2"
             >
-                <input className="2" type="submit" value="Send" />
+                <input className="2" type="submit" value="Send Scribble!" />
             </form>
         </div>
     );

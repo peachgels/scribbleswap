@@ -2,8 +2,6 @@ const helper = require('./helper.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-let pinned = [];
-
 // const handlePin = (e) => {
 
 //     const scribID = (e.target.name);
@@ -29,14 +27,14 @@ const loadInboxFromServer = async () => {
     );
 }
 
-const loadScrapbookFromServer = async () => {
-    const response = await fetch('/getScrapbook');
-    const data = await response.json();
-    ReactDOM.render(
-        <DomoList domos={data.scrapbook} />,
-        document.getElementById('domos')
-    );
-}
+// const loadScrapbookFromServer = async () => {
+//     const response = await fetch('/getScrapbook');
+//     const data = await response.json();
+//     ReactDOM.render(
+//         <DomoList domos={data.scrapbook} />,
+//         document.getElementById('domos')
+//     );
+// }
 const sendToScrapbook = () => {
 
 }
@@ -64,8 +62,8 @@ const InboxList = (props) => {
                 </form> */}
                 <img src={item.img} />
                 <div class="scribInfo">
-                    <h3>From: {item.ownerUser} </h3>
-                    <h3>Date: {date}</h3>
+                    <h3>From: {item.ownerUsername} </h3>
+                    <h3>Drawn On: {date}</h3>
                 </div>
             </div>
         );

@@ -9,37 +9,40 @@ const sendScribbles = async (req, res) => {
   const scribData = {
     img: req.body.img,
     owner: req.session.account._id,
-    ownerUser: req.session.account.username
+    ownerUsername: req.session.account.username,
   };
   try {
-    const newScrib = new Scribble(scribData)
+    const newScrib = new Scribble(scribData);
     newScrib.save();
     const updatePromises = [];
-    let currentAct = req.session.account.username;
+    const currentAct = req.session.account.username;
     if (req.body.savedAsPFP) {
       updatePromises.push(
-        Account.findOne({ username: currentAct }).exec().then(current => {
-          if (!current) {
-            console.log(`No account found!`);
+        Account.findOne({ username: currentAct }).exec().then((thisGuy) => {
+          if (!thisGuy) {
+            console.log('No account found!');
             return;
           }
+          const current = thisGuy;
           current.profilePic = newScrib;
-          return current.save();
-        })
-      )
+          current.save();
+        }),
+      );
     }
-    for (const friend of req.body.sendToList) {
+    req.body.sendToList.forEach(friend => {
       updatePromises.push(
-        Account.findOne({ username: friend }).exec().then(sentTo => {
+        Account.findOne({ username: friend }).exec().then((sentTo) => {
           if (!sentTo) {
             console.log(`user ${friend} not found`);
             return;
           }
-          sentTo.inbox.push(newScrib);
-          return sentTo.save();
-        })
+          const recipient = sentTo;
+          recipient.inbox.push(newScrib);
+          recipient.save();
+        }),
       );
     }
+    );
     await Promise.all(updatePromises);
     return res.json({ redirect: '/maker' });
   } catch (err) {
@@ -48,24 +51,24 @@ const sendScribbles = async (req, res) => {
   }
 };
 
-const updateScrapbook = async (req, res) => {
-  try {
-    const newScrap = await Scribble.findOne({ _id: req.body.scribID }).exec()
-    console.log(newScrap._id);
-    const query = req.session.account.username;
-    const thisGuy = await Account.findOne({ username: query})
-    if (!thisGuy) {
-      console.log(`No account found!`);
-      return;
-    }
-    thisGuy.scrapbook.push(newScrap);
-    await thisGuy.save();
-    return res.status(201);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: 'Error!' });
-  }
-}
+// const updateScrapbook = async (req, res) => {
+//   try {
+//     const newScrap = await Scribble.findOne({ _id: req.body.scribID }).exec();
+//     console.log(newScrap._id);
+//     const query = req.session.account.username;
+//     const thisGuy = await Account.findOne({ username: query });
+//     if (!thisGuy) {
+//       console.log('No account found!');
+//       return;
+//     }
+//     thisGuy.scrapbook.push(newScrap);
+//     await thisGuy.save();
+//     return res.status(201);
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(500).json({ error: 'Error!' });
+//   }
+// };
 
 const getInbox = async (req, res) => {
   try {
@@ -112,7 +115,7 @@ module.exports = {
   getPFP,
   getUserData,
   getInbox,
-  updateScrapbook,
+  // updateScrapbook,
   getScrapbook,
   scribblePage,
   sendScribbles,

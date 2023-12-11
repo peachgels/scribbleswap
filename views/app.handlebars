@@ -13,6 +13,10 @@
     <h2 id="username">DEFAULT</h2>
     <div class="navlink"><a href="/scribble">Scribble!</a></div>
     <div class="bottom">
+      <div class="navlink"><a id="goPremiumButton">Go Premium</a></div>
+      <form class="navlink" action="/premiumToggle" method="POST">
+        <input type="submit" value="Toggle Premium" />
+      </form>
       <div class="navlink"><a id="changePassButton" href="/changePassword">Change Password</a></div>
       <div class="navlink"><a href="/logout">Log out</a></div>
     </div>
@@ -21,10 +25,9 @@
 
   </section>
 
-  <div id="domoMessage" class='hidden'>
+  <div id="message" class='hidden'>
     <img id="speech" src="/assets/img/speech.png" alt="speech box" />
     <h3><span id="errorMessage"></span></h3>
-    <img id="domo" src="assets/img/domo.png" alt="domo" />
   </div>
   <script src="/assets/appBundle.js"></script>
 </body>

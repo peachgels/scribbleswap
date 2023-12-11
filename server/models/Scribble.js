@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const _ = require('underscore');
+// const _ = require('underscore');
 
 let ScribbleModel = {};
 

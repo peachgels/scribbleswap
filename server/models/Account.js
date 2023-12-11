@@ -33,6 +33,10 @@ const AccountSchema = new mongoose.Schema({
     [{ type: mongoose.Schema.Types.ObjectId }],
   scrapbook:
     [{ type: mongoose.Schema.Types.ObjectId }],
+  premium: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 // Converts a doc to something we can store in redis later on.
@@ -42,6 +46,7 @@ AccountSchema.statics.toAPI = (doc) => ({
   profilePic: doc.profilePic,
   inbox: doc.inbox,
   scrapbook: doc.scrapbook,
+  premium: doc.premium
 });
 
 // Helper function to hash a password
