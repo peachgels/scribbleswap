@@ -19,10 +19,6 @@ const sendScribbles = async (req, res) => {
     if (req.body.savedAsPFP) {
       updatePromises.push(
         Account.findOne({ username: currentAct }).exec().then((thisGuy) => {
-          if (!thisGuy) {
-            console.log('No account found!');
-            return;
-          }
           const current = thisGuy;
           current.profilePic = newScrib;
           current.save();
@@ -33,7 +29,6 @@ const sendScribbles = async (req, res) => {
       updatePromises.push(
         Account.findOne({ username: friend }).exec().then((sentTo) => {
           if (!sentTo) {
-            console.log(`user ${friend} not found`);
             return;
           }
           const recipient = sentTo;
@@ -71,8 +66,18 @@ const sendScribbles = async (req, res) => {
 // };
 
 const getInbox = async (req, res) => {
+  let docs;
   try {
-    const docs = await Scribble.find({ _id: { $in: req.session.account.inbox } });
+    if (req.session.account.premium){
+      console.log('yes premium');
+      docs = await Scribble.find({ _id: { $in: req.session.account.inbox } })
+      .sort({_id:-1}).limit(100);
+    }
+    else{
+      console.log('no premium');
+      docs = await Scribble.find({ _id: { $in: req.session.account.inbox } })
+      .sort({_id:-1}).limit(2);
+    }
     return res.json({ inbox: docs });
   } catch (err) {
     console.log(err);

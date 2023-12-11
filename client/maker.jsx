@@ -27,23 +27,11 @@ const loadInboxFromServer = async () => {
     );
 }
 
-// const loadScrapbookFromServer = async () => {
-//     const response = await fetch('/getScrapbook');
-//     const data = await response.json();
-//     ReactDOM.render(
-//         <DomoList domos={data.scrapbook} />,
-//         document.getElementById('domos')
-//     );
-// }
-const sendToScrapbook = () => {
-
-}
-
 const InboxList = (props) => {
     if (props.inbox.length === 0) {
         return (
             <div className="inboxList">
-                <h3 className="emptyDomo">No Scribbles Yet!</h3>
+                <h3>No Scribbles Yet!</h3>
             </div>
         );
     }
@@ -121,8 +109,6 @@ const init = () => {
         <InboxList inbox={[]} />,
         document.getElementById('scribContainer')
     );
-
-
     loadInboxFromServer();
     loadUserData();
     loadPFP();

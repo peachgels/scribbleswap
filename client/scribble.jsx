@@ -31,8 +31,6 @@ const DrawingTools = (props) => {
             <input id="eraseButton" type="radio" name="drawing" value="erase" onClick={setToErase}></input>
             <label for="eraseButton">Erase</label>
             <hr></hr>
-            {/* <label for="stroke">Pen Color</label>
-            <input id="stroke" name='stroke' type="color"></input> */}
             <label for="lineWidth">Line Width</label>
             <input id="lineWidth" type="range" min="1" max="50" defaultValue="5"></input>
             <hr></hr>

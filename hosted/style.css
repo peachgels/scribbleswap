@@ -169,6 +169,12 @@ nav {
     align-items: center;
     gap: 50px;
 }
+nav.non-maker {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 20px;
+    justify-content: center;
+}
 
 nav:hover {
     box-shadow: 4px 0px 7px #7904046f;
@@ -275,11 +281,11 @@ nav:hover {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #55acee;
+    background-color: rgb(127, 225, 250);
     border-radius: 2px;
-    border-color: #66acee;
+    border-color: #9acaf7;
     padding: 3px 0px;
-    color: white;
+    color: rgb(30, 29, 54);
     text-decoration: none;
 }
 
@@ -293,6 +299,7 @@ nav:hover {
 .formSubmit:hover {
     transition: background-color 0.4s ease;
     background-color: #338acc;
+    color: white;
 }
 
 #user,
@@ -529,6 +536,12 @@ h2 {
     bottom: 5px;
     align-items: center;
 }
+#premiumToggle{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
 @keyframes loadUp{
     from {opacity: 0;
         bottom: -200px;}

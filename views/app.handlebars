@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>DomoMaker</title>
+  <title>ScribbleSwap</title>
   <link rel="shortcut icon" href="/assets/img/favicon.png" />
   <link rel="stylesheet" type="text/css" href="/assets/style.css" />
 </head>
@@ -13,14 +13,13 @@
     <h2 id="username">DEFAULT</h2>
     <div class="navlink"><a href="/scribble">Scribble!</a></div>
     <div class="bottom">
-      <div class="navlink"><a id="goPremiumButton">Go Premium</a></div>
-      <form class="navlink" action="/premiumToggle" method="POST">
-        <input type="submit" value="Toggle Premium" />
-      </form>
       <div class="navlink"><a id="changePassButton" href="/changePassword">Change Password</a></div>
       <div class="navlink"><a href="/logout">Log out</a></div>
     </div>
   </nav>
+  <form class="navlink" id="premiumToggle" action="/maker" method="POST">
+    <input type="submit" value="Toggle Premium" />
+  </form>
   <section id="scribContainer">
 
   </section>

@@ -92,7 +92,7 @@ const premiumToggle = async (req, res) => {
     account.premium = !account.premium;
     console.log(account.premium);
     await account.save();
-    return res.json({ redirect: '/maker' })
+    return res.json({ redirect: '/maker' });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'An error occured!' });

@@ -17,14 +17,13 @@ const router = (app) => {
 
   app.get('/maker', mid.requiresLogin, controllers.Scribble.makerPage);
   // app.post('/maker', mid.requiresLogin, controllers.Scribble.updateScrapbook);
+  app.post('/maker', mid.requiresLogin, controllers.Account.premiumToggle);
 
   app.get('/scribble', mid.requiresLogin, controllers.Scribble.scribblePage);
   app.post('/scribble', mid.requiresLogin, controllers.Scribble.sendScribbles);
 
   app.get('/changePassword', mid.requiresSecure, mid.requiresLogin, controllers.Account.changePasswordPage);
   app.post('/changePassword', mid.requiresSecure, mid.requiresLogin, controllers.Account.changePassword);
-
-  app.post('/premiumToggle', mid.requiresSecure, mid.requiresLogin, controllers.Account.premiumToggle)
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
