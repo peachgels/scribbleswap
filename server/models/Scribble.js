@@ -12,6 +12,9 @@ const ScribbleSchema = new mongoose.Schema({
     required: true,
     ref: 'Account',
   },
+  ownerUsername: {
+    type: String,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
@@ -21,6 +24,7 @@ const ScribbleSchema = new mongoose.Schema({
 ScribbleSchema.statics.toAPI = (doc) => ({
   image: doc.img,
   owner: doc.owner,
+  ownerUsername: doc.ownerUsername,
   _id: doc._id,
 });
 

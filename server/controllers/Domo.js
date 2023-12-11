@@ -9,6 +9,7 @@ const sendScribbles = async (req, res) => {
   const scribData = {
     img: req.body.img,
     owner: req.session.account._id,
+    ownerUser: req.session.account.username
   };
   try {
     const newScrib = new Scribble(scribData)
@@ -39,9 +40,6 @@ const sendScribbles = async (req, res) => {
         })
       );
     }
-    // updatePromises.push(
-    //   req.session.account = Account.toAPI(req.session.account)
-    // );
     await Promise.all(updatePromises);
     return res.json({ redirect: '/maker' });
   } catch (err) {
@@ -51,17 +49,18 @@ const sendScribbles = async (req, res) => {
 };
 
 const updateScrapbook = async (req, res) => {
-  console.log('updateScrapbook got called')
   try {
-    const currentAct = req.session.account.username;
-    Account.findOne({ username: currentAct }).exec().then(current => {
-      if (!current) {
-        console.log(`No account found!`);
-        return;
-      }
-      current.scrapbook.push(Scribble.findOne({ _id: req.body.id }).exec());
-      return current.save();
-    })
+    const newScrap = await Scribble.findOne({ _id: req.body.scribID }).exec()
+    console.log(newScrap._id);
+    const query = req.session.account.username;
+    const thisGuy = await Account.findOne({ username: query})
+    if (!thisGuy) {
+      console.log(`No account found!`);
+      return;
+    }
+    thisGuy.scrapbook.push(newScrap);
+    await thisGuy.save();
+    return res.status(201);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error!' });
@@ -98,10 +97,20 @@ const getPFP = async (req, res) => {
   }
 };
 
+const getUserData = async (req, res) => {
+  try {
+    const docs = await Account.find({ _id: req.session.account._id });
+    return res.json({ stuff: docs });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Error retrieving user info!' });
+  }
+};
+
 module.exports = {
   makerPage,
-  // makeDomo,
   getPFP,
+  getUserData,
   getInbox,
   updateScrapbook,
   getScrapbook,
