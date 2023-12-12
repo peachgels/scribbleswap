@@ -57,6 +57,7 @@ const signup = async (req, res) => {
   }
 };
 
+// compares new passwords, saves and re-encrypts new password
 const changePassword = async (req, res) => {
   const { username } = req.session.account;
   const newPass = `${req.body.newPass}`;
@@ -86,9 +87,11 @@ const changePassword = async (req, res) => {
   }
 };
 
+// sets account to premium
+// obviously in a legitimate implementation payment details would go here
 const premiumToggle = async (req, res) => {
   try {
-    const account = await Account.findOne({ username: req.session.account.username});
+    const account = await Account.findOne({ username: req.session.account.username });
     account.premium = !account.premium;
     await account.save();
     req.session.account.premium = !account.premium;
@@ -97,7 +100,7 @@ const premiumToggle = async (req, res) => {
     console.log(err);
     return res.status(500).json({ error: 'An error occured!' });
   }
-}
+};
 
 module.exports = {
   loginPage,
@@ -106,5 +109,5 @@ module.exports = {
   signup,
   changePassword,
   changePasswordPage,
-  premiumToggle
+  premiumToggle,
 };

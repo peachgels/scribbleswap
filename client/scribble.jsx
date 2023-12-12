@@ -8,10 +8,14 @@ const handleScribble = (e) => {
     e.preventDefault();
     helper.hideError();
 
+    //saves canvas to img data
     const img = canvas.toDataURL();
 
     let savedAsPFP = document.querySelector("#saveAsPFP").checked;
 
+    //grabs the final rendered react list and uses that to generate
+    //what is sent back to server. I'm sure there is a better way to do this.
+    //But I did it this way.
     let sendToList = Array.from(document.querySelectorAll('#recipient'));
     for (let i = 0; i < sendToList.length; i++) {
         sendToList[i] = (sendToList[i].textContent.trim() || sendToList[i].innerText.trim())
@@ -22,6 +26,7 @@ const handleScribble = (e) => {
     return false;
 }
 
+//menu for drawing
 const DrawingTools = (props) => {
 
     return (
@@ -71,6 +76,7 @@ const DrawingTools = (props) => {
 };
 
 
+//used the site below for react list code
 //https://react.dev/learn/updating-arrays-in-state
 const RecipientsMenu = (props) => {
     const [list, setList] = useState([]);
@@ -98,6 +104,7 @@ const RecipientsMenu = (props) => {
         setList(temp);
 
     };
+    //end of borrowed code
 
     return (
         <div>
@@ -129,9 +136,10 @@ const RecipientsMenu = (props) => {
     );
 };
 
-//frankenstiened these together
+//frankenstiened these together for drawing capabilities
 //https://codepen.io/javascriptacademy-stash/pen/porpeoJ
 //https://www.codingnepalweb.com/build-drawing-app-html-canvas-javascript/
+//very little modification, allowPainting bool to determine when the drawing was done is original
 
 const canvas = document.getElementById('drawing-board');
 const toolbar = document.getElementById('toolbar');
@@ -143,7 +151,6 @@ const canvasOffsetY = canvas.offsetTop;
 let isPainting = false;
 let allowPainting = true;
 let lineWidth = 5;
-let sendToList = [];
 
 const colorButtonClicked = (e) => {
     document.querySelector(".options .selected").classList.remove("selected");
@@ -210,9 +217,9 @@ const init = () => {
     // setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
     document.querySelector("#finished").addEventListener("click", () => {
         allowPainting = false;
-        const link = document.createElement("a"); // creating <a> element
-        link.download = `${Date.now()}.jpg`; // passing current date as link download value
-        link.href = canvas.toDataURL(); // passing canvasData as link href value
+        const link = document.createElement("a");
+        link.download = `${Date.now()}.jpg`;
+        link.href = canvas.toDataURL();
         ReactDOM.render(
             <RecipientsMenu sendToList={[]} />,
             document.getElementById('toolbar'));

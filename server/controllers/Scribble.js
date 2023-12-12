@@ -6,17 +6,22 @@ const makerPage = async (req, res) => res.render('app');
 const scribblePage = (req, res) => res.render('scribble');
 
 const sendScribbles = async (req, res) => {
+  // creates a scribble from the data
   const scribData = {
     img: req.body.img,
     owner: req.session.account._id,
     ownerUsername: req.session.account.username,
   };
   try {
+    // saves the scribble to the cluster
     const newScrib = new Scribble(scribData);
     newScrib.save();
+
+    // ESLint error about await not being top level
     const updatePromises = [];
     const currentAct = req.session.account.username;
-    console.log(req.body.savedAsPFP);
+
+    // if the user is saving as PFP, push it to their account
     if (req.body.savedAsPFP) {
       updatePromises.push(
         Account.findOne({ username: currentAct }).exec().then((thisGuy) => {
@@ -26,7 +31,10 @@ const sendScribbles = async (req, res) => {
         }),
       );
     }
-    req.body.sendToList.forEach(friend => {
+
+    // loop through each friend in the list
+    // push the scribble to that friend's inbox
+    req.body.sendToList.forEach((friend) => {
       updatePromises.push(
         Account.findOne({ username: friend }).exec().then((sentTo) => {
           if (!sentTo) {
@@ -37,8 +45,7 @@ const sendScribbles = async (req, res) => {
           recipient.save();
         }),
       );
-    }
-    );
+    });
     await Promise.all(updatePromises);
     return res.json({ redirect: '/maker' });
   } catch (err) {
@@ -47,24 +54,24 @@ const sendScribbles = async (req, res) => {
   }
 };
 
+// if premium, users have more inbox slots
 const getInbox = async (req, res) => {
   let docs;
   try {
-    if (req.session.account.premium){
+    if (req.session.account.premium) {
       docs = await Scribble.find({ _id: { $in: req.session.account.inbox } })
-      .sort({_id:-1}).limit(100);
-    }
-    else{
+        .sort({ _id: -1 }).limit(100);
+    } else {
       docs = await Scribble.find({ _id: { $in: req.session.account.inbox } })
-      .sort({_id:-1}).limit(50);
+        .sort({ _id: -1 }).limit(50);
     }
-    console.log(req.session.account._id)
     const account = await Account.findById(req.session.account._id).exec();
 
     if (!account) {
       return res.status(401).json({ error: 'User not found.' });
     }
 
+    // update the account based on this session
     req.session.account = Account.toAPI(account);
     return res.json({ inbox: docs });
   } catch (err) {
@@ -73,16 +80,7 @@ const getInbox = async (req, res) => {
   }
 };
 
-const getScrapbook = async (req, res) => {
-  try {
-    const docs = await Scribble.find({ _id: { $in: req.session.account.scrapbook } });
-    return res.json({ scrapbook: docs });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: 'Error retrieving scrapbook!' });
-  }
-};
-
+// gets pfp
 const getPFP = async (req, res) => {
   try {
     const docs = await Scribble.find({ _id: req.session.account.profilePic });
@@ -93,6 +91,7 @@ const getPFP = async (req, res) => {
   }
 };
 
+// gets username
 const getUserData = async (req, res) => {
   try {
     const docs = await Account.find({ _id: req.session.account._id });
@@ -108,7 +107,6 @@ module.exports = {
   getPFP,
   getUserData,
   getInbox,
-  getScrapbook,
   scribblePage,
   sendScribbles,
 };

@@ -33,9 +33,7 @@ const PasswordWindow = (props) => {
             method="POST"
             className="mainForm"
         >
-            <label htmlFor="newPass">New Password: </label>
             <input id="newPass" type="password" name="newPass" placeholder="password" />
-            <label htmlFor="newPass2">New Password: </label>
             <input id="newPass2" type="password" name="newPass2" placeholder="retype password" />
             <input className="formSubmit" type="submit" value="Update" />
         </form>

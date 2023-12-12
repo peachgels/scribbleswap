@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 // const _ = require('underscore');
 
 let ScribbleModel = {};
-
+// scribbles store image data, ownerIDs, usernames of owners
 const ScribbleSchema = new mongoose.Schema({
   img: {
     type: String,

@@ -2,18 +2,6 @@ const helper = require('./helper.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-// const handlePin = (e) => {
-
-//     const scribID = (e.target.name);
-//     e.preventDefault();
-//     helper.hideError();
-
-//     helper.sendPost(e.target.action, { scribID }, loadScrapbookFromServer);
-
-//     return false;
-// }
-
-
 //get the inbox data from the server
 const loadInboxFromServer = async () => {
     const response = await fetch('/getInbox');
@@ -27,6 +15,7 @@ const loadInboxFromServer = async () => {
     );
 }
 
+//render out the inbox
 const InboxList = (props) => {
     if (props.inbox.length === 0) {
         return (
@@ -41,13 +30,6 @@ const InboxList = (props) => {
         date = date.toDateString();
         return (
             <div key={item._id} className="scribble">
-                {/* <form id="pinForm"
-                    name={item._id}
-                    onSubmit={handlePin}
-                    method="POST"
-                >
-                    <input type="submit" class="pin"></input>
-                </form> */}
                 <img src={item.img} />
                 <div class="scribInfo">
                     <h3>From: {item.ownerUsername} </h3>
@@ -65,6 +47,7 @@ const InboxList = (props) => {
         </div>
     );
 }
+//gets the PFP data from the server and loads it out in react
 const loadPFP = async () => {
     const response = await fetch('/getPFP');
     const data = await response.json();
@@ -73,6 +56,7 @@ const loadPFP = async () => {
         document.getElementById('pfpSpot')
     );
 }
+//gets the user data from the server and loads it out in react
 const loadUserData = async () => {
     const response = await fetch('/getUserData');
     const data = await response.json();

@@ -36,7 +36,7 @@ const AccountSchema = new mongoose.Schema({
   premium: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 // Converts a doc to something we can store in redis later on.
@@ -46,7 +46,7 @@ AccountSchema.statics.toAPI = (doc) => ({
   profilePic: doc.profilePic,
   inbox: doc.inbox,
   scrapbook: doc.scrapbook,
-  premium: doc.premium
+  premium: doc.premium,
 });
 
 // Helper function to hash a password
@@ -76,6 +76,10 @@ AccountSchema.statics.authenticate = async (username, password, callback) => {
   }
 };
 
+// this function acts similarly to the above, but updates the session
+// while the user is in it so inbox and pfp updates
+// can be seen on refresh without having to log out/in.
+// When a model is updated in mongoose, this code retrieves the updated data
 AccountSchema.statics.update = async (userId, callback) => {
   try {
     const doc = await AccountModel.findById({ userId }).exec();
